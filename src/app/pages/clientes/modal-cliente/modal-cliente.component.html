@@ -1,0 +1,21 @@
+<div class="modal-header">
+    <h4 class="modal-title">{{ id > 0 ? 'Editar Usuário' : 'Adicionar Usuário' }}</h4>
+    <button type="button" class="btn-close" aria-label="Close" (click)="activeModal.dismiss('Cross click')"></button>
+</div>
+<div class="modal-body">
+    <form [formGroup]="form">
+        <div class="mb-3">
+            <input type="text" class="form-control" formControlName="name"  placeholder="Digite o Nome">
+          </div>
+          <div class="mb-3">
+            <input [currencyMask]="{ prefix: 'R$ ', thousands: '.', decimal: ',' }" class="form-control" formControlName="salary"  placeholder="Digite o Salário">
+          </div>
+          <div class="mb-3">
+            <input [currencyMask]="{ prefix: 'R$ ', thousands: '.', decimal: ',' }" class="form-control" formControlName="companyValuation"  placeholder="Digite o Valor da Empresa">
+          </div>
+    </form>
+</div>
+<div class="modal-footer">
+    <button type="button" class="btn btn-outline-secondary" (click)="activeModal.close('Close click')">Fechar</button>
+    <button type="button" class="btn btn-primary" (click)="submitItem()" [disabled]="!form.valid">Salvar</button>
+</div>
