@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { environment } from '../../../environments/environment';
 import { HttpUtil } from '../../util/http.util';
 
@@ -28,6 +28,13 @@ export class UserService {
   }
 
   deleteUser(id:number) {
-    return this.http.delete<any>(`${this.basUrl}/${id}`);
+    const httpOptions = {
+      headers: new HttpHeaders({
+        'Accept': 'text/plain, */*',
+        'Content-Type': 'application/json' // We send JSON
+      }),
+      responseType: 'text' as 'json'  // We accept plain text as response.
+    };
+    return this.http.delete<any>(`${this.basUrl}/${id}`, httpOptions);
   }
 }

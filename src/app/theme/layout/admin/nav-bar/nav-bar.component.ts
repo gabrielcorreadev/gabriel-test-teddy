@@ -1,5 +1,7 @@
+import { NgIf } from '@angular/common';
 import { Component, inject, Input } from '@angular/core';
 import { NgbActiveOffcanvas, NgbOffcanvas } from '@ng-bootstrap/ng-bootstrap';
+import { UsuarioService } from '../../../../services/user/usuario.service';
 
 @Component({
 	selector: 'ngbd-offcanvas-content',
@@ -45,14 +47,25 @@ export class NgbdOffcanvasContent {
 
 @Component({
   selector: 'app-navbar',
-  imports: [],
+  imports: [NgIf],
   templateUrl: './nav-bar.component.html',
   styleUrl: './nav-bar.component.scss'
 })
 export class NavBarComponent {
+	collapsed = true;
+	usuario = null;
+
 	private offcanvasService = inject(NgbOffcanvas);
 
+	constructor(private usuarioService: UsuarioService) {
+		this.usuario = usuarioService.obterUsuarioLogado;
+	 }
+	
 	open() {
 		const offcanvasRef = this.offcanvasService.open(NgbdOffcanvasContent);
 	}
+
+	deslogar(){
+		this.usuarioService.deslogar();
+	  }
 }

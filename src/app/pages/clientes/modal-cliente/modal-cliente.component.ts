@@ -2,7 +2,7 @@ import { Component, inject, Input, OnInit } from '@angular/core';
 import { UserService } from '../../../services/user/user.service';
 import { NgbPaginationModule } from '@ng-bootstrap/ng-bootstrap';
 import { ToastrService } from 'ngx-toastr';
-import { NgxSpinnerModule } from 'ngx-spinner';
+import { NgxSpinnerModule, NgxSpinnerService } from 'ngx-spinner';
 import { NgFor, NgForOf } from '@angular/common';
 import { NgbActiveModal, NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
@@ -21,10 +21,10 @@ export class ModalClienteComponent implements OnInit {
     @Input() id: any = 0;
     form: FormGroup;
   
-  loading:boolean = false;
   totalSize:number = 0;
 
   constructor(
+    private spinner: NgxSpinnerService,
     private _toastr: ToastrService,
     private _formBuilder: FormBuilder, 
     private userService: UserService) {
@@ -33,19 +33,24 @@ export class ModalClienteComponent implements OnInit {
 
   ngOnInit(): void {
     this.buildForm();
-    this.loadData();
+    if(this.id)
+    {
+      this.loadData();
+    }
   }
 
   loadData()
   {
-    this.loading = true;
+    this.spinner.show();
     this.userService.getById(this.id)
     .subscribe((result: any) => {
      this.form.patchValue(result);
     },
     (err:any) => {
       this._toastr.error(err);
-    });
+    }).add(() => {
+      this.spinner.hide();
+ });
 }
 
   buildForm() {
@@ -59,29 +64,34 @@ export class ModalClienteComponent implements OnInit {
   saveUser()
   {
     let data = this.form.getRawValue();
-    this.loading = true;
+    this.spinner.show();
     this.userService.saveUser(data)
     .subscribe((result: any) => {
         this._toastr.success('Item salvo com sucesso');
         this.activeModal.close();
     },
     (err:any) => {
-      this._toastr.error(err);
-    });
+      this._toastr.error(err.error.message);
+    }).add(() => {
+      this.spinner.hide();
+ });
 }
 
 updateUser()
 {
   let data = this.form.getRawValue();
-  this.loading = true;
+  this.spinner.show();
   this.userService.updateUser(this.id, data)
   .subscribe((result: any) => {
       this._toastr.success('Item atualizado com sucesso');
       this.activeModal.close();
   },
   (err:any) => {
-    this._toastr.error(err);
-  });
+    console.log(err)
+    this._toastr.error(err.error.message);
+  }).add(() => {
+    this.spinner.hide();
+});
 }
 
 submitItem()

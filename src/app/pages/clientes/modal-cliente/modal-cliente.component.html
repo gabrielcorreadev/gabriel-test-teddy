@@ -14,8 +14,9 @@
             <input [currencyMask]="{ prefix: 'R$ ', thousands: '.', decimal: ',' }" class="form-control" formControlName="companyValuation"  placeholder="Digite o Valor da Empresa">
           </div>
     </form>
+    <div class="d-grid gap-2">
+      <button type="button" class="btn btn-primary" (click)="submitItem()" [disabled]="!form.valid">Salvar</button>
+    </div>
 </div>
 <div class="modal-footer">
-    <button type="button" class="btn btn-outline-secondary" (click)="activeModal.close('Close click')">Fechar</button>
-    <button type="button" class="btn btn-primary" (click)="submitItem()" [disabled]="!form.valid">Salvar</button>
 </div>

@@ -1,9 +1,19 @@
 /* You can add global styles to this file, and also import other style files */
 
 /* Importing Bootstrap SCSS file. */
+$primary: #ec6724;
+
 @import 'bootstrap/scss/bootstrap';
+@import 'ngx-toastr/toastr';
 
-
+html, body, .container{
+    height: 100%;
+  }
+  
 .m-r-15 {
     margin-right: 15px;
+}
+
+.btn-primary{
+    color: white;
 }
