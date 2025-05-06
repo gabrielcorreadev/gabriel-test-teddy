@@ -46,7 +46,7 @@ export class ClientesComponent implements OnInit {
     .subscribe((result: any) => {
       console.log(result)
       this.users = result?.clients;
-      this.totalSize = result?.totalPages
+      this.totalSize = result?.totalPages*this.users.length;
     },
     (err:any) => {
       this._toastr.error(err);
